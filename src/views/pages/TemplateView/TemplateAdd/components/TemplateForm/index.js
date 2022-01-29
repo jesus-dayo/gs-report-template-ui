@@ -1,16 +1,9 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
-import Button from "../../../../../components/Button/Button";
-import InputText from "../../../../../components/InputText/InputText";
-import TemplateModal from "../TemplateModal/TemplateModal";
+import React from "react";
+import InputText from "../../../../../../components/InputText/InputText";
+import TemplateTable from "./TemplateTable";
 
 const TemplateForm = ({ template, dispatchTemplate }) => {
-  const [openAdd, setOpenAdd] = useState(false);
-
-  const handleAddHeader = () => {
-    setOpenAdd(true);
-  };
-
   return (
     <div className="w-full p-4">
       <div className="mb-2 text-left">
@@ -33,16 +26,12 @@ const TemplateForm = ({ template, dispatchTemplate }) => {
           />
         </div>
       </div>
-      <div className="w-full max-w-lg text-left">
-        <Button onClick={handleAddHeader}>Add Header</Button>
-        <TemplateModal
-          isOpen={openAdd}
-          onClose={() => setOpenAdd(false)}
-          template={template}
+      <div className="w-full text-left">
+        <TemplateTable
+          rows={template.rows}
           dispatchTemplate={dispatchTemplate}
         />
       </div>
-      <div></div>
     </div>
   );
 };

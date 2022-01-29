@@ -6,10 +6,6 @@ const actions = [
     route: "/",
     label: "View Templates",
   },
-  {
-    route: "/add",
-    label: "Add Template",
-  },
 ];
 
 const ActionBar = () => {

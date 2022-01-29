@@ -3,15 +3,18 @@ import React from "react";
 
 const colors = {
   primary: "bg-black text-white hover:bg-gray-600",
+  secondary: "bg-blue-600 text-white hover:bg-blue-400",
+  error: "bg-red-600 text-white hover:bg-red-400",
 };
 
 const sizes = {
-  small: "h-12 w-32",
+  xs: "h-10 w-28",
+  s: "h-12 w-32",
 };
 
 const Button = ({
   variant = "primary",
-  size = "small",
+  size = "s",
   children,
   customStyle = "",
   onClick = () => {},

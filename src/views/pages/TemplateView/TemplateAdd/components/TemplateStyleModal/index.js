@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import React, { useReducer } from "react";
 import Modal from "react-modal/lib/components/Modal";
 import { IoCloseCircle } from "react-icons/io5";
-import InputText from "../../../../../components/InputText/InputText";
-import InputSelect from "../../../../../components/InputSelect/InputSelect";
+import InputText from "../../../../../../components/InputText/InputText";
+import Header from "../../../../../../components/Header/Header";
 
 const defaultCustomStyles = {
   content: {
@@ -38,7 +38,7 @@ const reducer = (state, action) => {
   }
 };
 
-const TemplateModal = ({
+const TemplateStyleModal = ({
   template,
   dispatchTemplate,
   isOpen,
@@ -54,57 +54,7 @@ const TemplateModal = ({
         <button onClick={onClose} className="absolute top-0 right-0 text-xl">
           <IoCloseCircle />
         </button>
-        <div className="font-sans text-lg text-white bg-blue-400 p-2 flex">
-          <h2>Header and Key Mapping</h2>
-        </div>
-        <div className="p-2 flex">
-          <InputText
-            label={"Display:"}
-            id={"display"}
-            onChange={(e) =>
-              dispatch({
-                type: "UPDATE",
-                payload: { display: e.target.value },
-              })
-            }
-            value={state.display}
-            placeholder="Enter display header"
-          />
-          <InputText
-            label={"Key:"}
-            id={"key"}
-            onChange={(e) =>
-              dispatch({
-                type: "UPDATE",
-                payload: { key: e.target.value },
-              })
-            }
-            value={state.key}
-            placeholder="Enter the property key"
-          />
-          <InputSelect
-            label={"Type:"}
-            id={"type"}
-            onChange={(e) =>
-              dispatch({
-                type: "UPDATE",
-                payload: { type: e.target.value },
-              })
-            }
-            value={state.type}
-            placeholder="Select the type"
-            options={[
-              {
-                label: "String",
-                value: "string",
-              },
-              {
-                label: "Number",
-                value: "number",
-              },
-            ]}
-          />
-        </div>
+        <Header title={"Add Styles"} />
         <div className="p-2 flex">
           <div className="p-2">
             <h2 className="font-bold">Header Styles</h2>
@@ -136,7 +86,7 @@ const TemplateModal = ({
   );
 };
 
-TemplateModal.propTypes = {
+TemplateStyleModal.propTypes = {
   customStyles: PropTypes.object,
   dispatchTemplate: PropTypes.func,
   isOpen: PropTypes.bool,
@@ -144,4 +94,4 @@ TemplateModal.propTypes = {
   template: PropTypes.object,
 };
 
-export default TemplateModal;
+export default TemplateStyleModal;
