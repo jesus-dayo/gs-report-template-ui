@@ -1,13 +1,17 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const sizes = {
-  s: "text-3xl",
+  s: 'text-3xl',
 };
 
-const IconButton = ({ icon, onClick, size = "s", children, ...others }) => {
+const IconButton = ({ icon, onClick, size = 's', children, ...others }) => {
   return (
-    <div className={`text-center ${sizes[size]}`} {...others} onClick={onClick}>
+    <div
+      className={`text-center ${sizes[size]} hover:text-blue-400`}
+      {...others}
+      onClick={onClick}
+    >
       {children}
       {icon}
     </div>

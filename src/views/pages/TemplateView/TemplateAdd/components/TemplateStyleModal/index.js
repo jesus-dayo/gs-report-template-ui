@@ -1,18 +1,18 @@
-import PropTypes from "prop-types";
-import React, { useReducer } from "react";
-import Modal from "react-modal/lib/components/Modal";
-import { IoCloseCircle } from "react-icons/io5";
-import InputText from "../../../../../../components/InputText/InputText";
-import Header from "../../../../../../components/Header/Header";
+import PropTypes from 'prop-types';
+import React, { useReducer } from 'react';
+import Modal from 'react-modal/lib/components/Modal';
+import { IoCloseCircle } from 'react-icons/io5';
+import InputText from '../../../../../../components/InputText/InputText';
+import Header from '../../../../../../components/Header/Header';
 
 const defaultCustomStyles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
   },
 };
 
@@ -28,7 +28,7 @@ const initState = () => ({
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "UPDATE":
+    case 'UPDATE':
       return {
         ...state,
         ...action.payload,
@@ -46,24 +46,23 @@ const TemplateStyleModal = ({
   onClose,
 }) => {
   const [state, dispatch] = useReducer(reducer, initState());
-  console.log("template", template);
-  console.log("dispatchTemplate", dispatchTemplate);
+  console.log('template', template, dispatchTemplate);
   return (
     <div>
       <Modal isOpen={isOpen} onRequestClose={onClose} style={customStyles}>
         <button onClick={onClose} className="absolute top-0 right-0 text-xl">
           <IoCloseCircle />
         </button>
-        <Header title={"Add Styles"} />
+        <Header title={'Add Styles'} />
         <div className="p-2 flex">
           <div className="p-2">
             <h2 className="font-bold">Header Styles</h2>
             <InputText
-              label={"Font Size:"}
-              id={"fontSize"}
+              label={'Font Size:'}
+              id={'fontSize'}
               onChange={(e) =>
                 dispatch({
-                  type: "UPDATE",
+                  type: 'UPDATE',
                   payload: {
                     headerStyles: {
                       ...state.headerStyles,
@@ -74,7 +73,7 @@ const TemplateStyleModal = ({
               }
               value={state.headerStyles.fontSize}
               placeholder="font size in pixels"
-              labelStyle={"w-32"}
+              labelStyle={'w-32'}
             />
           </div>
           <div className="border-solid border-l-2 h-full p-2">
