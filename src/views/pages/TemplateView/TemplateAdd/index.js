@@ -1,7 +1,9 @@
 import React, { useReducer, useState } from 'react';
 import Button from '../../../../components/Button/Button';
+import { saveTemplate } from '../../../../services/service';
 import TemplateForm from './components/TemplateForm';
 import TemplatePreview from './components/TemplatePreview';
+import { useNavigate } from 'react-router-dom';
 
 const defaultRow = (column) => ({
   column,
@@ -90,6 +92,17 @@ const reducer = (state, action) => {
 const TemplateAdd = () => {
   const [template, dispatchTemplate] = useReducer(reducer, initialTemplate);
   const [showPreview, setShowPreview] = useState(true);
+  const navigate = useNavigate();
+
+  const save = async () => {
+    try {
+      await saveTemplate(template);
+      navigate('/');
+    } catch (e) {
+      console.error(e);
+      alert('Error saving the template. Unable to contact server.');
+    }
+  };
 
   return (
     <div className="m-2 w-full h-full">
@@ -103,6 +116,9 @@ const TemplateAdd = () => {
       <div className="m-2 flex w-full h-full">
         <TemplateForm template={template} dispatchTemplate={dispatchTemplate} />
         {showPreview && <TemplatePreview template={template} />}
+      </div>
+      <div className="m-2 flex w-full">
+        <Button onClick={() => save()}>Save</Button>
       </div>
     </div>
   );

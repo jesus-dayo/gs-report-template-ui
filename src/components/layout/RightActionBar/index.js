@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
-import React from "react";
+import PropTypes from 'prop-types';
+import React from 'react';
 
 const RightActionBar = ({ children, ...others }) => {
   return (
     <div className="m-2 w-full">
-      <div className="flex float-left pr-4" {...others}>
+      <div className="flex pr-4" {...others}>
         {children}
       </div>
     </div>
