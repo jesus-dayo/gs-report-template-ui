@@ -6,6 +6,13 @@ import TemplateList from './TemplateList';
 
 const TemplateView = () => {
   const [showAddUpdate, setShowAddUpdate] = useState();
+  const [updateTemplate, setUpdateTemplate] = useState();
+
+  const handleUpdate = (template) => {
+    setUpdateTemplate(template);
+    setShowAddUpdate(true);
+  };
+
   return (
     <div>
       <div className="w-full">
@@ -16,8 +23,13 @@ const TemplateView = () => {
           >{`${showAddUpdate ? 'Back to Dashboard' : 'Add Template'}`}</Button>
         </RightActionBar>
       </div>
-      {showAddUpdate && <TemplateAdd />}
-      {!showAddUpdate && <TemplateList />}
+      {showAddUpdate && (
+        <TemplateAdd
+          back={() => setShowAddUpdate(false)}
+          existingTemplate={updateTemplate}
+        />
+      )}
+      {!showAddUpdate && <TemplateList handleUpdate={handleUpdate} />}
     </div>
   );
 };

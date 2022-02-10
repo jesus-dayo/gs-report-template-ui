@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types';
 import React, { useReducer, useState } from 'react';
 import Button from '../../../../components/Button/Button';
 import { saveTemplate } from '../../../../services/service';
 import TemplateForm from './components/TemplateForm';
 import TemplatePreview from './components/TemplatePreview';
-import { useNavigate } from 'react-router-dom';
 import { EXCEL } from '../../../../enums/fileFormats';
 
 const defaultRow = (column) => ({
@@ -26,9 +26,13 @@ const initialTemplate = {
   name: null,
   description: null,
   format: EXCEL,
-  rows: [defaultRow(0)],
+  rows: [{ ...defaultRow(0) }],
   globalStyles: {},
   createdBy: 'Jed Dayo',
+};
+
+const initTemplate = (initialValues) => {
+  return { ...initialValues };
 };
 
 const UPDATE = 'UPDATE';
@@ -37,6 +41,7 @@ const ADD_ROW = 'ADD_ROW';
 const DELETE_ROW = 'DELETE_ROW';
 const MOVE_COLUMN_DOWN = 'MOVE_COLUMN_DOWN';
 const MOVE_COLUMN_UP = 'MOVE_COLUMN_UP';
+const RESET = 'RESET';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -88,26 +93,36 @@ const reducer = (state, action) => {
         rows: [...newRows],
       };
     }
+    case RESET: {
+      return {
+        ...initTemplate(initialTemplate),
+        rows: [{ ...defaultRow(0) }],
+        globalStyles: {},
+      };
+    }
     default:
       throw new Error();
   }
 };
 
-const TemplateAdd = () => {
-  const [template, dispatchTemplate] = useReducer(reducer, initialTemplate);
+const TemplateAdd = ({ back, existingTemplate }) => {
+  const [template, dispatchTemplate] = useReducer(
+    reducer,
+    existingTemplate || initialTemplate,
+    initTemplate
+  );
   const [showPreview, setShowPreview] = useState(true);
-  const navigate = useNavigate();
 
   const save = async () => {
     try {
       await saveTemplate(template);
-      navigate('/');
+      back();
+      dispatchTemplate({ type: RESET });
     } catch (e) {
       console.error(e);
       alert('Error saving the template. Unable to contact server.');
     }
   };
-
   return (
     <div className="m-2 w-full h-full">
       <div className="w-full p-2 h-full border-l border-gray-200 ">
@@ -126,6 +141,11 @@ const TemplateAdd = () => {
       </div>
     </div>
   );
+};
+
+TemplateAdd.propTypes = {
+  back: PropTypes.func,
+  existingTemplate: PropTypes.object,
 };
 
 export default TemplateAdd;

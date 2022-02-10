@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const TemplatePreview = ({ template = {} }) => {
-  const { name, rows } = template;
+  const { name, description, format, rows } = template;
   // display: null,
   // key: null,
   // type: "string",
@@ -22,9 +22,19 @@ const TemplatePreview = ({ template = {} }) => {
       <div className="border-gray-400 border-solid">
         <div className="w-full text-left mt-2">
           <div className="relative rounded-xl overflow-auto p-4">
-            <div className="text-l mb-2">
-              <span className="font-bold">Template: Name: </span>
-              <span>{name}</span>
+            <div className="p-10 bg-indigo-100">
+              <div className="text-l mb-2">
+                <span className="font-bold">Name: </span>
+                <span>{name}</span>
+              </div>
+              <div className="text-l mb-2">
+                <span className="font-bold">Description: </span>
+                <span>{description}</span>
+              </div>
+              <div className="text-l mb-2">
+                <span className="font-bold">Format: </span>
+                <span>{format}</span>
+              </div>
             </div>
             <table className="table-auto w-full text-sm">
               <thead>

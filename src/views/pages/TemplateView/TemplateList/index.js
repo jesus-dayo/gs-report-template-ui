@@ -5,7 +5,7 @@ import { useState } from 'react/cjs/react.development';
 import { listTemplates } from '../../../../services/service';
 import Button from '../../../../components/Button/Button';
 
-const TemplateList = () => {
+const TemplateList = ({ handleUpdate }) => {
   const [templates, setTemplates] = useState([]);
 
   useEffect(() => {
@@ -52,6 +52,12 @@ const TemplateList = () => {
                 {template.createdDate}
               </td>
               <td className="border-b border-slate-100 dark:border-slate-700 p-2">
+                <Button
+                  variant="secondary"
+                  onClick={() => handleUpdate(template)}
+                >
+                  Update
+                </Button>
                 <Button variant="error" onClick={() => console.log('delete')}>
                   Delete
                 </Button>
@@ -66,6 +72,7 @@ const TemplateList = () => {
 
 TemplateList.propTypes = {
   templates: PropTypes.array,
+  handleUpdate: PropTypes.func,
 };
 
 export default TemplateList;
