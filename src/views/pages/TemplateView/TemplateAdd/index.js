@@ -4,6 +4,7 @@ import { saveTemplate } from '../../../../services/service';
 import TemplateForm from './components/TemplateForm';
 import TemplatePreview from './components/TemplatePreview';
 import { useNavigate } from 'react-router-dom';
+import { EXCEL } from '../../../../enums/fileFormats';
 
 const defaultRow = (column) => ({
   column,
@@ -23,8 +24,11 @@ const defaultRow = (column) => ({
 
 const initialTemplate = {
   name: null,
+  description: null,
+  format: EXCEL,
   rows: [defaultRow(0)],
   globalStyles: {},
+  createdBy: 'Jed Dayo',
 };
 
 const UPDATE = 'UPDATE';

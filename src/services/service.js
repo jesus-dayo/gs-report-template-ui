@@ -1,4 +1,4 @@
-const url = 'https://template-service';
+const url = '/api/templates';
 
 const saveTemplate = async (template) => {
   const response = await fetch(`${url}`, {
