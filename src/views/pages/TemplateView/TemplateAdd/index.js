@@ -110,7 +110,7 @@ const TemplateAdd = ({ back, existingTemplate }) => {
     existingTemplate || initialTemplate,
     initTemplate
   );
-  const [showPreview, setShowPreview] = useState(true);
+  const [showPreview, setShowPreview] = useState(false);
 
   const save = async () => {
     try {
