@@ -1,65 +1,35 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import PropTypes from "prop-types";
+import React, { useRef, useEffect } from "react";
+import Button from "../../../../../../components/Button/Button";
+import { prettyPrintJson } from "pretty-print-json";
 
 const TemplatePreview = ({ template = {} }) => {
-  const { name, description, format, rows } = template;
-  // display: null,
-  // key: null,
-  // type: "string",
-  // styles: {
-  //   headerStyles: {
-  //     fontSize: "14px",
-  //     fontWeight: "bold",
-  //   },
-  //   inputStyles: {
-  //     fontSize: "12px",
-  //   },
-  // },
+  const jsonContainer = useRef(null);
+
+  useEffect(() => {
+    jsonContainer.current.innerHTML = prettyPrintJson.toHtml(template);
+  });
+
   return (
     <div className="flex-grow w-full text-left p-4 border-l-2 border-solid">
       <text className="text-lg font-bold">Preview</text>
       <text> - This is a preview of your report</text>
+      <div>
+        <Button
+          onClick={() => {
+            navigator.clipboard.writeText(JSON.stringify(template));
+            alert("Copy to Clipboard was successful.");
+          }}
+        >
+          Copy JSON to Clipboard
+        </Button>
+      </div>
       <div className="border-gray-400 border-solid">
         <div className="w-full text-left mt-2">
-          <div className="relative rounded-xl overflow-auto p-4">
-            <div className="p-10 bg-indigo-100">
-              <div className="text-l mb-2">
-                <span className="font-bold">Name: </span>
-                <span>{name}</span>
-              </div>
-              <div className="text-l mb-2">
-                <span className="font-bold">Description: </span>
-                <span>{description}</span>
-              </div>
-              <div className="text-l mb-2">
-                <span className="font-bold">Format: </span>
-                <span>{format}</span>
-              </div>
-            </div>
-            <table className="table-auto w-full text-sm">
-              <thead>
-                <tr className="border-b dark:border-slate-600 font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200 text-left">
-                  {rows.map((row, index) => (
-                    <th key={`preview-header-${index}`}>
-                      {row.display || 'column'}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="bg-white dark:bg-slate-800">
-                <tr>
-                  {rows.map((row, index) => (
-                    <td
-                      key={`col-${index}`}
-                      className="border-b border-slate-100 dark:border-slate-700 p-4 pl-8 text-slate-500 dark:text-slate-400"
-                    >
-                      {row.type}
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <pre
+            className="relative rounded-xl overflow-auto p-4"
+            ref={jsonContainer}
+          ></pre>
         </div>
       </div>
     </div>

@@ -1,21 +1,21 @@
-import { createServer, Model } from 'miragejs';
+import { createServer, Model } from "miragejs";
 
-export function makeServer({ environment = 'test' } = {}) {
+export function makeServer({ environment = "test" } = {}) {
   let server = createServer({
     environment,
     models: {
       template: Model,
     },
     routes() {
-      this.namespace = 'api';
-      this.post('/templates', (schema, request) => {
+      this.namespace = "api";
+      this.post("/template", (schema, request) => {
         let template = JSON.parse(request.requestBody);
-        return server.create('template', {
+        return server.create("template", {
           ...template,
           createdDate: new Date(),
         });
       });
-      this.get('/templates', (schema) => {
+      this.get("/template", (schema) => {
         return schema.templates.all();
       });
     },

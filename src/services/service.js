@@ -1,8 +1,8 @@
-const url = '/api/templates';
+const url = "/api/template";
 
 const saveTemplate = async (template) => {
   const response = await fetch(`${url}`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(template),
   });
   return response.json();
@@ -10,10 +10,20 @@ const saveTemplate = async (template) => {
 
 const listTemplates = async (template) => {
   const response = await fetch(`${url}`, {
-    method: 'GET',
+    method: "GET",
     body: JSON.stringify(template),
   });
   return response.json();
 };
 
-export { saveTemplate, listTemplates };
+const uploadTemplate = async (template) => {
+  let formData = new FormData();
+  formData.append("file", template);
+  const response = await fetch(`${url}/upload`, {
+    method: "POST",
+    body: formData,
+  });
+  return response.json();
+};
+
+export { saveTemplate, listTemplates, uploadTemplate };

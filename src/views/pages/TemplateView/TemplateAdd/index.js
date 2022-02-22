@@ -1,103 +1,102 @@
-import PropTypes from 'prop-types';
-import React, { useReducer, useState } from 'react';
-import Button from '../../../../components/Button/Button';
-import { saveTemplate } from '../../../../services/service';
-import TemplateForm from './components/TemplateForm';
-import TemplatePreview from './components/TemplatePreview';
-import { EXCEL } from '../../../../enums/fileFormats';
-
-const defaultRow = (column) => ({
-  column,
-  display: null,
-  key: null,
-  type: 'string',
-  styles: {
-    headerStyles: {
-      fontSize: '14px',
-      fontWeight: 'bold',
-    },
-    inputStyles: {
-      fontSize: '12px',
-    },
-  },
-});
+import PropTypes from "prop-types";
+import React, { useReducer, useState } from "react";
+import Button from "../../../../components/Button/Button";
+import { saveTemplate } from "../../../../services/service";
+import TemplateForm from "./components/TemplateForm";
+import TemplatePreview from "./components/TemplatePreview";
+import { EXCEL_2007 } from "../../../../enums/fileFormats";
 
 const initialTemplate = {
   name: null,
   description: null,
-  format: EXCEL,
-  rows: [{ ...defaultRow(0) }],
-  globalStyles: {},
-  createdBy: 'Jed Dayo',
+  format: EXCEL_2007,
+  sheets: [{ index: 0, name: "Sample Sheet Name" }],
+  static: [],
+  global: {},
+  json: "",
+  createdBy: "Jed Dayo",
 };
 
 const initTemplate = (initialValues) => {
   return { ...initialValues };
 };
 
-const UPDATE = 'UPDATE';
-const UPDATE_ROW = 'UPDATE_ROW';
-const ADD_ROW = 'ADD_ROW';
-const DELETE_ROW = 'DELETE_ROW';
-const MOVE_COLUMN_DOWN = 'MOVE_COLUMN_DOWN';
-const MOVE_COLUMN_UP = 'MOVE_COLUMN_UP';
-const RESET = 'RESET';
+const UPDATE = "UPDATE";
+const UPDATE_ROW = "UPDATE_ROW";
+const ADD_ROW = "ADD_ROW";
+const DELETE_ROW = "DELETE_ROW";
+const MOVE_COLUMN_DOWN = "MOVE_COLUMN_DOWN";
+const MOVE_COLUMN_UP = "MOVE_COLUMN_UP";
+const RESET = "RESET";
+const JSON = "JSON";
 
 const reducer = (state, action) => {
   switch (action.type) {
     case UPDATE:
       return { ...state, ...action.payload };
     case UPDATE_ROW: {
-      const { index, key, value } = action.payload;
-      const newRows = [...state.rows];
+      const { index, key, value, parent } = action.payload;
+      const newRows = [...state[parent]];
       newRows[index][key] = value;
-      return { ...state, rows: newRows };
+      const newState = { ...state };
+      newState[parent] = newRows;
+      return { ...state, ...newState };
     }
     case ADD_ROW: {
+      const { parent, defaultRow } = action.payload;
+      const newState = { ...state };
+      newState[parent] = [...state[parent], defaultRow];
       return {
-        ...state,
-        rows: [...state.rows, defaultRow(state.rows.length)],
+        ...newState,
       };
     }
     case DELETE_ROW: {
-      const newRows = [...state.rows];
-      const { index } = action.payload;
+      const { index, parent } = action.payload;
+      const newRows = [...state[parent]];
+      const newState = { ...state };
+      newRows.splice(index, 1);
+      newState[parent] = [...newRows];
       return {
-        ...state,
-        rows: [...newRows.splice(index, 1)],
+        ...newState,
       };
     }
     case MOVE_COLUMN_DOWN: {
-      const newRows = [...state.rows];
-      const { index } = action.payload;
-      newRows[index].column = newRows[index].column + 1;
-      newRows[index + 1].column = newRows[index + 1].column - 1;
+      const { index, parent } = action.payload;
+      const newRows = [...state[parent]];
+      newRows[index].index = newRows[index].index + 1;
+      newRows[index + 1].index = newRows[index + 1].index - 1;
       const temp = newRows[index];
       newRows[index] = newRows[index + 1];
       newRows[index + 1] = temp;
+      const newState = { ...state };
+      newState[parent] = [...newRows];
       return {
-        ...state,
-        rows: [...newRows],
+        ...newState,
       };
     }
     case MOVE_COLUMN_UP: {
-      const newRows = [...state.rows];
-      const { index } = action.payload;
-      newRows[index].column = newRows[index].column - 1;
-      newRows[index - 1].column = newRows[index - 1].column + 1;
+      const { index, parent } = action.payload;
+      const newRows = [...state[parent]];
+      newRows[index].index = newRows[index].index - 1;
+      newRows[index - 1].index = newRows[index - 1].index + 1;
       const temp = newRows[index];
       newRows[index] = newRows[index - 1];
       newRows[index - 1] = temp;
+      const newState = { ...state };
+      newState[parent] = [...newRows];
       return {
-        ...state,
-        rows: [...newRows],
+        ...newState,
       };
     }
     case RESET: {
       return {
         ...initTemplate(initialTemplate),
-        rows: [{ ...defaultRow(0) }],
-        globalStyles: {},
+      };
+    }
+    case JSON: {
+      return {
+        ...state,
+        ...action.payload,
       };
     }
     default:
@@ -120,7 +119,7 @@ const TemplateAdd = ({ back, existingTemplate }) => {
       dispatchTemplate({ type: RESET });
     } catch (e) {
       console.error(e);
-      alert('Error saving the template. Unable to contact server.');
+      alert("Error saving the template. Unable to contact server.");
     }
   };
   return (
@@ -128,7 +127,7 @@ const TemplateAdd = ({ back, existingTemplate }) => {
       <div className="w-full p-2 h-full border-l border-gray-200 ">
         <div className="w-full text-right pr-4">
           <Button onClick={() => setShowPreview(!showPreview)}>{`${
-            showPreview ? 'Close Preview' : 'Open Preview'
+            showPreview ? "Close Preview" : "Open Preview"
           }`}</Button>
         </div>
       </div>
