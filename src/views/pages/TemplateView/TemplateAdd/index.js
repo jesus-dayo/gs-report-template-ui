@@ -10,10 +10,7 @@ const initialTemplate = {
   name: null,
   description: null,
   format: EXCEL_2007,
-  sheets: [{ index: 0, name: "Sample Sheet Name" }],
-  static: [],
-  global: {},
-  json: "",
+  sheets: [],
   createdBy: "Jed Dayo",
 };
 
