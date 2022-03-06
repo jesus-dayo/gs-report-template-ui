@@ -2,24 +2,37 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react/cjs/react.development";
-import { listTemplates } from "../../../../services/service";
+import { deleteTemplate, listTemplates } from "../../../../services/service";
 import Button from "../../../../components/Button/Button";
 
 const TemplateList = ({ handleUpdate }) => {
   const [templates, setTemplates] = useState([]);
 
+  const fetchTemplates = async () => {
+    try {
+      const response = await listTemplates();
+      setTemplates(response);
+    } catch (e) {
+      console.error(e);
+      alert("Error fetching templates. Unable to contact server.");
+    }
+  };
+
   useEffect(() => {
-    const fetchTemplates = async () => {
-      try {
-        const response = await listTemplates();
-        setTemplates(response.templates);
-      } catch (e) {
-        console.error(e);
-        alert("Error fetching templates. Unable to contact server.");
-      }
-    };
     fetchTemplates();
   }, []);
+
+  const deleteTemp = async (name) => {
+    try {
+      await deleteTemplate(name);
+      alert(`Delete was successful of template - ${name}.`);
+      fetchTemplates();
+    } catch (e) {
+      console.error(e);
+      alert("Error fetching templates. Unable to contact server.");
+    }
+  };
+
   return (
     <div className="m-2 w-full h-full">
       <table className="table-auto w-full text-sm">
@@ -28,8 +41,6 @@ const TemplateList = ({ handleUpdate }) => {
             <th width={"20%"}>Name</th>
             <th width={"15%"}>Format</th>
             <th width={"20%"}>Description</th>
-            <th width={"20%"}>Created By</th>
-            <th width={"15%"}>Created Date</th>
             <th width={"10%"}>Action</th>
           </tr>
         </thead>
@@ -47,19 +58,16 @@ const TemplateList = ({ handleUpdate }) => {
                   {template.description}
                 </td>
                 <td className="border-b border-slate-100 dark:border-slate-700 p-2">
-                  {template.createdBy}
-                </td>
-                <td className="border-b border-slate-100 dark:border-slate-700 p-2">
-                  {template.createdDate}
-                </td>
-                <td className="border-b border-slate-100 dark:border-slate-700 p-2">
                   <Button
                     variant="secondary"
                     onClick={() => handleUpdate(template)}
                   >
                     Update
                   </Button>
-                  <Button variant="error" onClick={() => console.log("delete")}>
+                  <Button
+                    variant="error"
+                    onClick={() => deleteTemp(template.name)}
+                  >
                     Delete
                   </Button>
                 </td>

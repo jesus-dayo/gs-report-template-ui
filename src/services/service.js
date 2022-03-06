@@ -26,4 +26,11 @@ const uploadTemplate = async (template) => {
   return response.json();
 };
 
-export { saveTemplate, listTemplates, uploadTemplate };
+const deleteTemplate = async (name) => {
+  const response = await fetch(`${url}/${name}`, {
+    method: "DELETE",
+  });
+  return response.json();
+};
+
+export { saveTemplate, listTemplates, uploadTemplate, deleteTemplate };
