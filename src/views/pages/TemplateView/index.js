@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import RightActionBar from '../../../components/layout/RightActionBar';
-import Button from '../../../components/Button/Button';
-import TemplateAdd from './TemplateAdd/index';
-import TemplateList from './TemplateList';
+import React, { useState } from "react";
+import RightActionBar from "../../../components/layout/RightActionBar";
+import Button from "../../../components/Button/Button";
+import TemplateAdd from "./TemplateAdd/index";
+import TemplateList from "./TemplateList";
 
 const TemplateView = () => {
   const [showAddUpdate, setShowAddUpdate] = useState();
@@ -20,7 +20,7 @@ const TemplateView = () => {
           <Button
             onClick={() => setShowAddUpdate(!showAddUpdate)}
             variant="secondary"
-          >{`${showAddUpdate ? 'Back to Dashboard' : 'Add Template'}`}</Button>
+          >{`${showAddUpdate ? "Back to Dashboard" : "Add Template"}`}</Button>
         </RightActionBar>
       </div>
       {showAddUpdate && (

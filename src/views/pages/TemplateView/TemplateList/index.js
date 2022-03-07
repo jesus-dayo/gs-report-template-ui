@@ -4,9 +4,11 @@ import { useEffect } from "react";
 import { useState } from "react/cjs/react.development";
 import { deleteTemplate, listTemplates } from "../../../../services/service";
 import Button from "../../../../components/Button/Button";
+import TemplateTestModal from "./TemplateTest/index";
 
 const TemplateList = ({ handleUpdate }) => {
   const [templates, setTemplates] = useState([]);
+  const [testOpen, setTestOpen] = useState();
 
   const fetchTemplates = async () => {
     try {
@@ -31,6 +33,10 @@ const TemplateList = ({ handleUpdate }) => {
       console.error(e);
       alert("Error fetching templates. Unable to contact server.");
     }
+  };
+
+  const testTemp = (template) => {
+    setTestOpen(template);
   };
 
   return (
@@ -58,23 +64,38 @@ const TemplateList = ({ handleUpdate }) => {
                   {template.description}
                 </td>
                 <td className="border-b border-slate-100 dark:border-slate-700 p-2">
-                  <Button
-                    variant="secondary"
-                    onClick={() => handleUpdate(template)}
-                  >
-                    Update
-                  </Button>
-                  <Button
-                    variant="error"
-                    onClick={() => deleteTemp(template.name)}
-                  >
-                    Delete
-                  </Button>
+                  <div className="flex gap-2 space-x-8">
+                    <Button
+                      variant="secondary"
+                      onClick={() => handleUpdate(template)}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      variant="error"
+                      onClick={() => deleteTemp(template.name)}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      variant="tertiary"
+                      onClick={() => testTemp(template)}
+                    >
+                      Test
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
+      {testOpen && (
+        <TemplateTestModal
+          template={testOpen}
+          isOpen={testOpen}
+          onClose={() => setTestOpen(null)}
+        />
+      )}
     </div>
   );
 };
