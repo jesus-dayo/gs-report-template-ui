@@ -20,8 +20,12 @@ const listTemplates = async () => {
 const uploadTemplate = async (template, name, description) => {
   let formData = new FormData();
   formData.append("file", template);
-  formData.append("name", name);
-  formData.append("description", description);
+  if (name) {
+    formData.append("name", name);
+  }
+  if (description) {
+    formData.append("description", description);
+  }
   const response = await fetch(`${templateUrl}/upload`, {
     method: "POST",
     body: formData,
