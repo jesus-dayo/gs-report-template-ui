@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useReducer, useState } from "react";
 import Button from "../../../../components/Button/Button";
-import { saveTemplate } from "../../../../services/service";
+import { getTemplate, saveTemplate } from "../../../../services/service";
 import TemplateForm from "./components/TemplateForm";
 import TemplatePreview from "./components/TemplatePreview";
 import { EXCEL_2007 } from "../../../../enums/fileFormats";
@@ -108,6 +108,16 @@ const TemplateAdd = ({ back, existingTemplate }) => {
     initTemplate
   );
   const [showPreview, setShowPreview] = useState(false);
+  const [exist, setExist] = useState();
+
+  const doesNameExist = async (name) => {
+    try {
+      await getTemplate(name);
+      setExist(true);
+    } catch (e) {
+      setExist(false);
+    }
+  };
 
   const save = async () => {
     try {
@@ -129,16 +139,14 @@ const TemplateAdd = ({ back, existingTemplate }) => {
         </div>
       </div>
       <div className="m-2 flex w-full h-full">
-        <TemplateForm template={template} dispatchTemplate={dispatchTemplate} />
+        <TemplateForm
+          template={template}
+          dispatchTemplate={dispatchTemplate}
+          save={save}
+          doesNameExist={doesNameExist}
+          exist={exist}
+        />
         {showPreview && <TemplatePreview template={template} />}
-      </div>
-      <div className="m-2 flex w-full">
-        <Button
-          disabled={!template.name || !template.description}
-          onClick={() => save()}
-        >
-          Save
-        </Button>
       </div>
     </div>
   );

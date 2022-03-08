@@ -17,6 +17,13 @@ const listTemplates = async () => {
   return response.json();
 };
 
+const getTemplate = async (name) => {
+  const response = await fetch(`${templateUrl}/${name}`, {
+    method: "GET",
+  });
+  return response ? response.json() : response;
+};
+
 const uploadTemplate = async (template, name, description) => {
   let formData = new FormData();
   formData.append("file", template);
@@ -54,4 +61,5 @@ export {
   uploadTemplate,
   deleteTemplate,
   generateReport,
+  getTemplate,
 };
