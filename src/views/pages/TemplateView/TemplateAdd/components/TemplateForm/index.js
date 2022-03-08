@@ -23,7 +23,7 @@ const TemplateForm = ({ template, dispatchTemplate }) => {
       <div className="w-full max-w-lg">
         <div className="flex flex-wrap -mx-3 mb-6">
           <InputText
-            label={"Name:"}
+            label={"*Name:"}
             id={"name"}
             onChange={(e) =>
               dispatchTemplate({
@@ -32,14 +32,14 @@ const TemplateForm = ({ template, dispatchTemplate }) => {
               })
             }
             value={template.name}
-            placeholder="Enter unique template name"
+            placeholder="Enter unique template name - this is required"
           />
         </div>
       </div>
       <div className="w-full max-w-lg">
         <div className="flex flex-wrap -mx-3 mb-6">
           <InputText
-            label={"Description:"}
+            label={"*Description:"}
             id={"description"}
             onChange={(e) =>
               dispatchTemplate({
@@ -48,7 +48,7 @@ const TemplateForm = ({ template, dispatchTemplate }) => {
               })
             }
             value={template.description}
-            placeholder="Enter description"
+            placeholder="Enter description - this is required"
           />
         </div>
       </div>

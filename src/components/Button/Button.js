@@ -22,13 +22,25 @@ const Button = ({
   onClick = () => {},
 }) => {
   return (
-    <button
-      onClick={onClick}
-      className={`${colors[variant]} ${sizes[size]} ${customStyle}`}
-      disabled={disabled}
-    >
-      {children}
-    </button>
+    <>
+      {disabled ? (
+        <button
+          onClick={onClick}
+          className={`bg-gray-500 text-white cursor-not-allowed ${sizes[size]}`}
+          disabled={disabled}
+        >
+          {children}
+        </button>
+      ) : (
+        <button
+          onClick={onClick}
+          className={`${colors[variant]} ${sizes[size]} ${customStyle}`}
+          disabled={disabled}
+        >
+          {children}
+        </button>
+      )}
+    </>
   );
 };
 
