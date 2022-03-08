@@ -3,7 +3,6 @@ import React from "react";
 import InputText from "../../../../../../components/InputText/InputText";
 import DragDrop from "../../../../../../components/DragDrop/DragDrop";
 import { uploadTemplate } from "../../../../../../services/service";
-import TemplateSheetTable from "./TemplateSheetTable/index";
 
 const TemplateForm = ({ template, dispatchTemplate }) => {
   const handleUpload = async (file) => {
@@ -32,11 +31,15 @@ const TemplateForm = ({ template, dispatchTemplate }) => {
             onChange={(e) =>
               dispatchTemplate({
                 type: "UPDATE",
-                payload: { ...template, name: e.target.value },
+                payload: {
+                  ...template,
+                  name: e.target.value?.replace(" ", ""),
+                },
               })
             }
             value={template.name}
-            placeholder="Enter unique template name - this is required"
+            maxLength={20}
+            placeholder="Enter unique template name without spaces (max 20 char)"
           />
         </div>
       </div>
@@ -52,17 +55,10 @@ const TemplateForm = ({ template, dispatchTemplate }) => {
               })
             }
             value={template.description}
-            placeholder="Enter description - this is required"
+            maxLength={300}
+            placeholder="Enter description (max 300 char)"
           />
         </div>
-      </div>
-      <div className="w-full">
-        {template?.sheets && (
-          <TemplateSheetTable
-            rows={template.sheets}
-            dispatchTemplate={dispatchTemplate}
-          />
-        )}
       </div>
     </div>
   );

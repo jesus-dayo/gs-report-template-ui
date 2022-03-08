@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import PropTypes from "prop-types";
+import React from "react";
 
 const InputText = ({
   onChange,
@@ -10,6 +10,7 @@ const InputText = ({
   id,
   labelStyle,
   disabled,
+  maxLength,
   ...others
 }) => {
   return (
@@ -24,7 +25,7 @@ const InputText = ({
       )}
       <input
         className={`appearance-none block w-full ${
-          disabled ? 'bg-gray-400' : 'bg-gray-200'
+          disabled ? "bg-gray-400" : "bg-gray-200"
         } text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
         id={id}
         type="text"
@@ -33,6 +34,7 @@ const InputText = ({
         onChange={onChange}
         onKeyPress={onKeyPress}
         disabled={disabled}
+        maxLength={maxLength}
         {...others}
       />
     </div>
@@ -48,6 +50,7 @@ InputText.propTypes = {
   value: PropTypes.string,
   onKeyPress: PropTypes.func,
   disabled: PropTypes.bool,
+  maxLength: PropTypes.number,
 };
 
 export default InputText;

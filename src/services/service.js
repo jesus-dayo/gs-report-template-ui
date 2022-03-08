@@ -5,14 +5,14 @@ const saveTemplate = async (template) => {
   const response = await fetch(`${templateUrl}`, {
     method: "POST",
     body: JSON.stringify(template),
+    headers: { "Content-Type": "application/json" },
   });
   return response.json();
 };
 
-const listTemplates = async (template) => {
+const listTemplates = async () => {
   const response = await fetch(`${templateUrl}`, {
     method: "GET",
-    body: JSON.stringify(template),
   });
   return response.json();
 };
