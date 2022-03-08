@@ -7,7 +7,11 @@ import TemplateSheetTable from "./TemplateSheetTable/index";
 
 const TemplateForm = ({ template, dispatchTemplate }) => {
   const handleUpload = async (file) => {
-    const json = await uploadTemplate(file);
+    const json = await uploadTemplate(
+      file,
+      template.name,
+      template.description
+    );
     dispatchTemplate({ type: "JSON", payload: json });
   };
 

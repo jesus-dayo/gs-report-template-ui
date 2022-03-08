@@ -109,11 +109,6 @@ const TemplateAdd = ({ back, existingTemplate }) => {
   );
   const [showPreview, setShowPreview] = useState(false);
 
-  const validate = () => {
-    console.log("validate template", template);
-    return !template.name || !template.description;
-  };
-
   const save = async () => {
     try {
       await saveTemplate(template);
@@ -138,7 +133,10 @@ const TemplateAdd = ({ back, existingTemplate }) => {
         {showPreview && <TemplatePreview template={template} />}
       </div>
       <div className="m-2 flex w-full">
-        <Button disabled={validate()} onClick={() => save()}>
+        <Button
+          disabled={!template.name || !template.description}
+          onClick={() => save()}
+        >
           Save
         </Button>
       </div>
